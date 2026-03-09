@@ -1,113 +1,239 @@
-/* Grundlayout für das Formular */
-.register-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+.auth-page {
+  --left-bg: #0f4ecf;
+  --right-bg: #eff4ff;
+  --accent: #1458db;
+  --border: #cfd8ea;
+  --text: #0f172a;
+  --muted: #42526b;
+
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: linear-gradient(90deg, var(--left-bg) 50%, var(--right-bg) 50%);
+  transition: background 0.3s ease;
+  color: var(--text);
+}
+
+.auth-page.mode-signup {
+  --left-bg: #d06a00;
+  --right-bg: #fff4e6;
+  --accent: #d06a00;
+  --border: #efcfab;
+}
+
+.brand-panel,
+.form-panel {
+  padding: clamp(1.25rem, 3vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-panel {
+  color: #ffffff;
+}
+
+.brand-inner {
+  width: min(460px, 100%);
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    opacity: 0.9;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    line-height: 1.02;
+    font-weight: 900;
+  }
+
+  .description {
+    margin: 1rem 0 1.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.65rem;
+    font-weight: 600;
+  }
+}
+
+.form-card {
+  width: min(460px, 100%);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 16px 45px rgba(12, 20, 35, 0.12);
+  padding: clamp(1rem, 2.6vw, 2rem);
 
   h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333333;
+    margin: 0;
+    font-size: 1.85rem;
+    font-weight: 800;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
+  .subtitle {
+    margin: 0.55rem 0 1.25rem;
+    color: var(--muted);
+  }
+}
 
-    label {
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-      color: #555555;
-    }
+.form-group {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
 
-    input {
-      padding: 0.6rem 0.8rem;
-      font-size: 1rem;
-      border: 1px solid #cccccc;
-      border-radius: 8px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-
-      &:focus {
-        border-color: #4a90e2;
-        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-        outline: none;
-      }
-
-      &::placeholder {
-        color: #bbbbbb;
-      }
-    }
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
   }
 
-  .register-button {
+  input {
     width: 100%;
-    padding: 0.8rem;
-    background-color: #4a90e2;
-    color: #ffffff;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.72rem 0.85rem;
+    font-size: 0.96rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+  }
 
-    &:hover {
-      background-color: #357abd;
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
+  input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
   }
 }
 
-/* Fehlermeldung */
-.error {
-  max-width: 400px;
-  margin: 0.5rem auto;
-  padding: 0.8rem 1rem;
-  background-color: #ffe6e6;
-  border: 1px solid #ff4d4d;
-  border-radius: 8px;
-  color: #cc0000;
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0 1rem;
+  color: var(--muted);
+}
+
+.submit-button {
+  width: 100%;
+  border: 0;
+  border-radius: 11px;
+  padding: 0.82rem 1rem;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.submit-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.feedback {
+  margin: 0.85rem 0 0;
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
   font-weight: 600;
+}
+
+.feedback.error {
+  color: #9f1239;
+  background: #ffe7ef;
+  border: 1px solid #f4b9ca;
+}
+
+.feedback.success {
+  color: #065f46;
+  background: #e7fff2;
+  border: 1px solid #a7e7c8;
+}
+
+.switch-text {
+  margin: 1rem 0 0;
+  color: var(--muted);
   text-align: center;
 }
 
-/* Erfolgsmeldung */
-.success {
-  max-width: 400px;
-  margin: 0.5rem auto;
-  padding: 0.8rem 1rem;
-  background-color: #e6ffea;
-  border: 1px solid #33cc66;
-  border-radius: 8px;
-  color: #007a33;
-  font-weight: 600;
-  text-align: center;
+.switch-button {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
 }
 
-/* Hinweis bereits registriert */
-p {
-  max-width: 400px;
-  margin: 1rem auto;
-  text-align: center;
-  color: #555555;
+@media (max-width: 930px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+    background: var(--right-bg);
+  }
 
-  a {
-    color: #4a90e2;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
+  .brand-panel {
+    align-items: flex-end;
+    justify-content: flex-start;
+    min-height: 45dvh;
+    padding: 1.5rem 1.25rem 2rem;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 35%),
+      linear-gradient(145deg, color-mix(in srgb, var(--left-bg) 88%, #000 12%), var(--left-bg));
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+  }
 
-    &:hover {
-      color: #357abd;
-      text-decoration: underline;
-    }
+  .form-panel {
+    align-items: flex-start;
+    padding: 0 1.25rem 1.25rem;
+    margin-top: -1.1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-inner {
+    width: 100%;
+  }
+
+  .brand-inner ul {
+    font-size: 0.98rem;
+    gap: 0.45rem;
+  }
+
+  .form-card {
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .brand-panel {
+    min-height: 41dvh;
+  }
+
+  .brand-inner h1 {
+    font-size: clamp(1.9rem, 11vw, 2.6rem);
   }
 }
