@@ -1,10 +1,10 @@
 <div class="auth-page" [class.mode-signup]="mode === 'signup'" [class.mode-login]="mode === 'login'">
   <section class="brand-panel">
     <div class="brand-inner">
-      <p class="eyebrow">Welcome</p>
+      <p class="eyebrow">Willkommen</p>
       <h1>{{ siteName }}</h1>
       <p class="description">
-        One place for your account access. Fast, secure, and designed for desktop and mobile.
+        Klarheit ist Design.
       </p>
 
       <ul>
@@ -15,12 +15,12 @@
 
   <section class="form-panel">
     <div class="form-card">
-      <h2>{{ mode === 'login' ? 'Login' : 'Create account' }}</h2>
+      <h2>{{ mode === 'login' ? 'Login' : 'Konto erstellen' }}</h2>
       <p class="subtitle">
         {{
           mode === 'login'
-            ? 'Sign in to continue to your dashboard.'
-            : 'Fill the form to create your account.'
+            ? 'Melden Sie sich an um fortzufahren.'
+            : 'Füllen Sie die Felder aus um Ihren Account anzulegen.'
         }}
       </p>
 
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label for="loginPassword">Password</label>
+          <label for="loginPassword">Passwort</label>
           <input
             id="loginPassword"
             type="password"
@@ -51,7 +51,7 @@
 
         <label class="check-row" for="stayLogged">
           <input id="stayLogged" name="stayLogged" type="checkbox" [(ngModel)]="stayLogged" />
-          <span>Keep me signed in</span>
+          <span>Angemeldet bleiben</span>
         </label>
 
         <button type="submit" class="submit-button">Login</button>
@@ -60,7 +60,7 @@
       <form *ngIf="mode === 'signup'" (ngSubmit)="signup()" #signupForm="ngForm">
         <div class="form-grid">
           <div class="form-group">
-            <label for="firstname">First name</label>
+            <label for="firstname">Vorname</label>
             <input
               id="firstname"
               type="text"
@@ -72,7 +72,7 @@
           </div>
 
           <div class="form-group">
-            <label for="lastname">Last name</label>
+            <label for="lastname">Nachname</label>
             <input
               id="lastname"
               type="text"
@@ -97,7 +97,7 @@
         </div>
 
         <div class="form-group">
-          <label for="signupPassword">Password</label>
+          <label for="signupPassword">Passwort</label>
           <input
             id="signupPassword"
             type="password"
@@ -109,7 +109,7 @@
         </div>
 
         <div class="form-group">
-          <label for="passwordRepeat">Confirm password</label>
+          <label for="passwordRepeat">Passwort bestätigen</label>
           <input
             id="passwordRepeat"
             type="password"
@@ -121,20 +121,20 @@
         </div>
 
         <div class="form-group">
-          <label for="birthdate">Birth date</label>
+          <label for="birthdate">Geburtsdatum</label>
           <input id="birthdate" type="date" name="birthdate" [(ngModel)]="formattedBirthdate" required />
         </div>
 
-        <button type="submit" class="submit-button">Create account</button>
+        <button type="submit" class="submit-button">Konto erstellen</button>
       </form>
 
       <p *ngIf="errMessage" class="feedback error">{{ errMessage }}</p>
       <p *ngIf="successMessage" class="feedback success">{{ successMessage }}</p>
 
       <p class="switch-text">
-        {{ mode === 'login' ? "Don't have an account?" : 'Already signed up?' }}
+        {{ mode === 'login' ? "Kein Account vorhanden?" : 'Bereits Registriert?' }}
         <button type="button" class="switch-button" (click)="toggleMode()">
-          {{ mode === 'login' ? 'Create one' : 'Log in here' }}
+          {{ mode === 'login' ? 'Account erstellen' : 'Anmelden' }}
         </button>
       </p>
     </div>

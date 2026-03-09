@@ -16,7 +16,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// ------------------- Globale Variablen -------------------
+// ------------------- Global var's -------------------
 var (
 	host, user, password, dbname string
 	port                         int
@@ -26,12 +26,12 @@ var (
 
 // ------------------- Init -------------------
 func init() {
-	// .env laden
+	// load .env
 	if err := godotenv.Load(".env"); err != nil {
-		log.Println("Keine .env Datei gefunden, nutze Environment Variables")
+		log.Println("No .env File found, use Environment Variables")
 	}
 
-	// Env Variablen auslesen + Defaults
+	// Read Env + Defaults
 	host = getEnv("DB_HOST", "localhost")
 	port = getEnvInt("DB_PORT", 5432)
 	user = getEnv("DB_USER", "postgres")
@@ -40,7 +40,7 @@ func init() {
 	jwtKey = []byte(getEnv("JWT_KEY", "defaultsecret"))
 }
 
-// ------------------- Helper Funktionen -------------------
+// ------------------- Helper Functions -------------------
 func getEnv(key, fallback string) string {
 	if v := os.Getenv(key); v != "" {
 		return v
@@ -89,7 +89,7 @@ func main() {
 	mux.HandleFunc("/login", handleLogin)
 	mux.HandleFunc("/auth/check", handleCheckAuth)
 
-	fmt.Println("Server läuft auf :8080")
+	fmt.Println("Surver runs on :8080")
 	log.Fatal(http.ListenAndServe(":8080", cors(mux)))
 }
 
@@ -213,7 +213,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]bool{"success": true})
 }
 
-// ------------------- User prüfen -------------------
+// ------------------- Check User -------------------
 func checkUser(email, password string) (bool, int, error) {
 	var hashedPassword string
 	var userID int

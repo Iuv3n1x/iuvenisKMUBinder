@@ -14,11 +14,11 @@ import { UserService } from '../../services/user-service';
 })
 export class Login implements OnInit {
   mode: 'login' | 'signup' = 'login';
-  siteName = 'KMU BINDER';
+  siteName = 'Iuvenis';
   details = [
-    'Secure account access for your workspace',
-    'Fast onboarding with guided validation',
-    'Session-based authentication with cookie sessions',
+    'Sammeln Sie Belohnungen fürs regelmäßige Einkaufen.',
+    'Einfach und entspannt den QR-Code scannen.',
+    'Kein Papier, keine Stempelkarte – alles digital.',
   ];
 
   userLog: UserLog = {
@@ -68,7 +68,7 @@ export class Login implements OnInit {
     this.successMessage = null;
 
     if (!this.email || !this.password) {
-      this.errMessage = 'Please fill in all login fields.';
+      this.errMessage = 'Bitte füllen Sie alle Felder aus.';
       return;
     }
 
@@ -80,12 +80,12 @@ export class Login implements OnInit {
         if (res.success) {
           this.router.navigate(['/dashboard']);
         } else {
-          this.errMessage = 'Email or password is incorrect.';
+          this.errMessage = 'Email oder Passwort falsch.';
           this.cdr.detectChanges();
         }
       },
       error: () => {
-        this.errMessage = 'Server error, please try again later.';
+        this.errMessage = 'Server Fehler, bitte versuchen Sie es später erneut.';
         this.cdr.detectChanges();
       },
     });
@@ -96,7 +96,7 @@ export class Login implements OnInit {
     this.successMessage = null;
 
     if (!this.formattedBirthdate) {
-      this.errMessage = 'Please provide your birth date.';
+      this.errMessage = 'Bitte geben Sie Ihr Geburtsdatum an.';
       return;
     }
 
@@ -111,7 +111,7 @@ export class Login implements OnInit {
 
     this.userService.signUp(this.user).subscribe({
       next: () => {
-        this.successMessage = 'Account created successfully. You can now log in.';
+        this.successMessage = 'Konto erfolgreich erstellt. Sie können sich nun anmelden.';
         this.email = this.user.email;
         this.password = '';
         this.mode = 'login';
@@ -119,7 +119,7 @@ export class Login implements OnInit {
         this.cdr.detectChanges();
       },
       error: () => {
-        this.errMessage = 'Signup failed. If this email already exists, please log in.';
+        this.errMessage = 'Registrierung fehlgeschlagen. Wenn Sie bereits ein Konto angelegt haben, melden Sie sich an.';
         this.cdr.detectChanges();
       },
     });

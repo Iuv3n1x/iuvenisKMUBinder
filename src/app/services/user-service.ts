@@ -41,7 +41,7 @@ export class UserService {
     const now = new Date();
     const year = user.birthdate.getFullYear();
 
-    if (year > now.getFullYear() || year < now.getFullYear() - 100) {
+    if (year > now.getFullYear() || year < now.getFullYear() - 120) {
       return 'Bitte geben Sie ein korrektes Geburtsdatum an.';
     }
 
