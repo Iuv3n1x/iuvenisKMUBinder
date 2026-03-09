@@ -57,3 +57,29 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Backend Quick Start (Go + PostgreSQL)
+
+The backend lives in `backend/` and expects PostgreSQL plus a small `.env` file.
+
+1. Copy `backend/.env.example` to `backend/.env` and update values if needed.
+2. Create the database from your PostgreSQL shell:
+
+```sql
+CREATE DATABASE kmubinder;
+```
+
+3. Run the schema:
+
+```bash
+psql -U postgres -d kmubinder -f backend/db/init.sql
+```
+
+4. Start backend:
+
+```bash
+cd backend
+go run .
+```
+
+The backend serves on `http://localhost:8080` and is configured for frontend CORS from `http://localhost:4200`.

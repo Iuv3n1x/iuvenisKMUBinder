@@ -1,24 +1,142 @@
-<form class="register-form" (ngSubmit)="login()" #form="ngForm">
-    <h2>Anmelden</h2>
+<div class="auth-page" [class.mode-signup]="mode === 'signup'" [class.mode-login]="mode === 'login'">
+  <section class="brand-panel">
+    <div class="brand-inner">
+      <p class="eyebrow">Welcome</p>
+      <h1>{{ siteName }}</h1>
+      <p class="description">
+        One place for your account access. Fast, secure, and designed for desktop and mobile.
+      </p>
 
-    <div class="form-group">
-        <label for="email">E-Mail</label>
-        <input placeholder="max@mustermail.de" id="email" type="email" [(ngModel)]="email" name="email" required>
+      <ul>
+        <li *ngFor="let detail of details">{{ detail }}</li>
+      </ul>
     </div>
-    <div class="form-group">
-        <label for="password">Passwort</label>
-        <input placeholder="********" id="password" type="password" [(ngModel)]="password" name="password" required>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-card">
+      <h2>{{ mode === 'login' ? 'Login' : 'Create account' }}</h2>
+      <p class="subtitle">
+        {{
+          mode === 'login'
+            ? 'Sign in to continue to your dashboard.'
+            : 'Fill the form to create your account.'
+        }}
+      </p>
+
+      <form *ngIf="mode === 'login'" (ngSubmit)="login()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            id="loginEmail"
+            type="email"
+            name="loginEmail"
+            placeholder="max@example.com"
+            [(ngModel)]="email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input
+            id="loginPassword"
+            type="password"
+            name="loginPassword"
+            placeholder="********"
+            [(ngModel)]="password"
+            required
+          />
+        </div>
+
+        <label class="check-row" for="stayLogged">
+          <input id="stayLogged" name="stayLogged" type="checkbox" [(ngModel)]="stayLogged" />
+          <span>Keep me signed in</span>
+        </label>
+
+        <button type="submit" class="submit-button">Login</button>
+      </form>
+
+      <form *ngIf="mode === 'signup'" (ngSubmit)="signup()" #signupForm="ngForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstname">First name</label>
+            <input
+              id="firstname"
+              type="text"
+              name="firstname"
+              placeholder="Max"
+              [(ngModel)]="user.firstname"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="lastname">Last name</label>
+            <input
+              id="lastname"
+              type="text"
+              name="lastname"
+              placeholder="Mustermann"
+              [(ngModel)]="user.lastname"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input
+            id="signupEmail"
+            type="email"
+            name="signupEmail"
+            placeholder="max@example.com"
+            [(ngModel)]="user.email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input
+            id="signupPassword"
+            type="password"
+            name="signupPassword"
+            placeholder="********"
+            [(ngModel)]="user.passwordhash"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="passwordRepeat">Confirm password</label>
+          <input
+            id="passwordRepeat"
+            type="password"
+            name="passwordRepeat"
+            placeholder="********"
+            [(ngModel)]="passwordRepeat"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="birthdate">Birth date</label>
+          <input id="birthdate" type="date" name="birthdate" [(ngModel)]="formattedBirthdate" required />
+        </div>
+
+        <button type="submit" class="submit-button">Create account</button>
+      </form>
+
+      <p *ngIf="errMessage" class="feedback error">{{ errMessage }}</p>
+      <p *ngIf="successMessage" class="feedback success">{{ successMessage }}</p>
+
+      <p class="switch-text">
+        {{ mode === 'login' ? "Don't have an account?" : 'Already signed up?' }}
+        <button type="button" class="switch-button" (click)="toggleMode()">
+          {{ mode === 'login' ? 'Create one' : 'Log in here' }}
+        </button>
+      </p>
     </div>
-
-    <input id="stayLoged" name="stayLoged" type="checkbox" [(ngModel)]="stayLogged">
-    <label for="stayLoged">Angemeldet bleiben?</label>
-    <p></p>
-
-    <button type="submit" class="register-button">Anmelden</button>
-</form>
-
-<div *ngIf="errMessage" class="error">
-  <p>{{ errMessage }}</p>
+  </section>
 </div>
-
-<p>Noch kein Konto? <a href="/signup">Konto erstellen</a></p>
