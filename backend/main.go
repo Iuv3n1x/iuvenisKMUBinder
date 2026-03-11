@@ -88,6 +88,7 @@ func main() {
 	mux.HandleFunc("/users", handleUsers)
 	mux.HandleFunc("/login", handleLogin)
 	mux.HandleFunc("/auth/check", handleCheckAuth)
+	mux.HandleFunc("/logout", handleLogout)
 
 	fmt.Println("Surver runs on :8080")
 	log.Fatal(http.ListenAndServe(":8080", cors(mux)))
@@ -252,6 +253,18 @@ func handleCheckAuth(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func handleLogout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		Expires:  time.Unix(0, 0),
+		HttpOnly: true,
+		Path:     "/",
+	})
 
 	w.WriteHeader(http.StatusOK)
 }

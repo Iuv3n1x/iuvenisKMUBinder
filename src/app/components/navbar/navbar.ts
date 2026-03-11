@@ -22,6 +22,13 @@ export class Navbar {
 
   logout() {
     console.log('Logout clicked');
+
+    fetch('http://localhost:8080/logout', {
+      method: 'POST',
+      credentials: 'include'
+    }).then(() => {
+      window.location.href = '/login';
+    })
   }
 
   @HostListener('document:click', ['$event'])
