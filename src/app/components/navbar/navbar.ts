@@ -1,11 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { RouterLink } from "@angular/router";
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {
 
+export class Navbar {
+  menuOpen = false;
+
+  @ViewChild('menuContainer') menuContainer!: ElementRef;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  logout() {
+    console.log('Logout clicked');
+  }
+
+  @HostListener('document:click', ['$event'])
+    clickOutside(event: MouseEvent) {
+      if (!this.menuContainer.nativeElement.contains(event.target)) {
+        this.menuOpen = false;
+      }
+    }
 }

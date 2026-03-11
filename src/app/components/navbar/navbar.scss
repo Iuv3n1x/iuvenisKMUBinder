@@ -1,0 +1,76 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 20px;
+  height: 70px;
+
+  background: #111;
+  color: white;
+}
+
+/* LEFT SIDE */
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 40px;
+}
+
+/* RIGHT SIDE */
+
+.right {
+  position: relative;
+}
+
+#userProfile {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+
+.profileOptions {
+  position: absolute;
+  right: 0;
+  top: 55px;
+
+  background: white;
+  color: black;
+
+  padding: 10px;
+  border-radius: 8px;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+  min-width: 150px;
+}
+
+.profileOptions a,
+.profileOptions button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+
+  text-align: left;
+  background: none;
+  border: none;
+
+  cursor: pointer;
+}
+
+.profileOptions button {
+  color: red;
+}
+
+.profileOptions a:hover,
+.profileOptions button:hover {
+  background: #eee;
+}

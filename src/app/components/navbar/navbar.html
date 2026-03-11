@@ -1,12 +1,19 @@
-<div class="left">
-    <p>Iuvenis WebDesign</p>
-</div>
-
-<div class="right">
-    <img id="userProfile" src="#" alt="Usericon">
-
-    <div class="profileOptions">
-        <a href="">Einstellungen</a> <br>
-        <a style="color: red" href="">Abmelden</a>
+<nav class="navbar"> 
+    <div class="left">
+        <img class="logo" src="assets/images/logo.png" alt="Logo">
     </div>
-</div>
+
+    <div class="right" #menuContainer>
+        <img 
+            id="userProfile"
+            src="assets/images/userProfile.png"
+            alt="Usericon"
+            (click)="toggleMenu()"
+        >
+
+        <div class="profileOptions" *ngIf="menuOpen">
+            <a routerLink="/settings">Einstellungen</a>
+            <button (click)="logout()">Abmelden</button>
+        </div>
+    </div>
+</nav>
