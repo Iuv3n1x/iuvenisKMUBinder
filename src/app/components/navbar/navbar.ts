@@ -37,4 +37,8 @@ export class Navbar {
         this.menuOpen = false;
       }
     }
+
+  navigateToDashboard() {
+    window.location.href = '/dashboard';
+  }
 }
