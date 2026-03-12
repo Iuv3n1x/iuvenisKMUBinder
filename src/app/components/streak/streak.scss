@@ -1,0 +1,80 @@
+.streakComponent {
+  --accent: #1458db;
+  --border: #cfd8ea;
+  --bg: #ffffff;
+  --muted: #42526b;
+
+  width: min(360px, 100%);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: 0 14px 36px rgba(12, 20, 35, 0.12);
+  overflow: hidden;
+}
+
+/* obere Hälfte */
+
+.upperPart {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem;
+}
+
+.streakIcon {
+  width: 70px;
+  height: 70px;
+  border-radius: 14px;
+  background: #f4f7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+}
+
+.streakInfo {
+
+  h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+}
+
+/* untere Hälfte */
+
+.bottomPart {
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.4rem;
+  background: #fafbff;
+}
+
+.rewardHint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.streakExpire {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  strong {
+    color: var(--accent);
+  }
+}
