@@ -1,0 +1,174 @@
+.settings-page {
+  --accent: #1458db;
+  --border: #cfd8ea;
+  --bg: #f5f7ff;
+  --card-bg: #ffffff;
+  --text: #0f172a;
+  --muted: #42526b;
+  --danger: #c62828;
+
+  background: var(--bg);
+  min-height: 100dvh;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  color: var(--text);
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.settings-container {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 760px;
+}
+
+.profileSettings,
+.notificationSettings,
+.appearanceSettings,
+.deleteAccount {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+}
+
+.inputField {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  input,
+  select {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+    background: #ffffff;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+}
+
+.passwordChange {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.35rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  input {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+.notificationSettings .inputField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    font-weight: 700;
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+}
+
+#saveChangesButton {
+  margin-top: 0.6rem;
+  border: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+  width: fit-content;
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+}
+
+.deleteAccount {
+  border: 1px solid #f2b8b8;
+  background: #fff6f6;
+
+  p {
+    color: #7f1d1d;
+    font-size: 0.9rem;
+    margin: 0.4rem 0 0.8rem;
+  }
+
+  input {
+    border: 1px solid #f2b8b8;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.6rem;
+    width: 100%;
+  }
+}
+
+#deleteAccountButton {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-weight: 800;
+  background: var(--danger);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+}
+
+@media (max-width: 650px) {
+  .settings-page {
+    padding: 1.2rem;
+  }
+
+  .profileSettings,
+  .notificationSettings,
+  .appearanceSettings,
+  .deleteAccount {
+    padding: 1.2rem;
+  }
+}
