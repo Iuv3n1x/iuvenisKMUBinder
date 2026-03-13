@@ -13,18 +13,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrl: './admin-sign-up.scss',
 })
 export class AdminSignUp {
-  mode: 'login' | 'signup' = 'login';
   siteName = 'Iuvenis';
   details = [
     'Sammeln Sie Belohnungen fürs regelmäßige Einkaufen.',
     'Einfach und entspannt den QR-Code scannen.',
     'Kein Papier, keine Stempelkarte – alles digital.',
   ];
-
-  adminLog: AdminLog = {
-    email: '',
-    password: '',
-  };
 
   admin: Admin = {
     firstname: '',
@@ -40,62 +34,13 @@ export class AdminSignUp {
   starterCode = '';
   streakLimit: number | null = null;
   companyName = '';
-  email = '';
-  password = '';
   passwordRepeat = '';
   formattedBirthdate = '';
-  stayLogged = false;
 
   errMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(
-    private userService: UserService,
-    private adminService: AdminService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {}
-
-  ngOnInit(): void {
-    const path = this.route.snapshot.routeConfig?.path;
-    this.mode = path === 'signup' ? 'signup' : 'login';
-  }
-
-  toggleMode(): void {
-    this.mode = this.mode === 'login' ? 'signup' : 'login';
-    this.errMessage = null;
-    this.successMessage = null;
-    this.router.navigate([this.mode === 'signup' ? '/adminSetUp' : '/adminLogin']);
-  }
-
-  login(): void {
-    this.errMessage = null;
-    this.successMessage = null;
-
-    if (!this.email || !this.password) {
-      this.errMessage = 'Bitte füllen Sie alle Felder aus.';
-      return;
-    }
-
-    this.adminLog.email = this.email;
-    this.adminLog.password = this.password;
-
-    this.userService.login(this.adminLog, this.stayLogged).subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          this.router.navigate(['/adminDashboard']);
-        } else {
-          this.errMessage = 'Email oder Passwort falsch.';
-          this.cdr.detectChanges();
-        }
-      },
-      error: () => {
-        this.errMessage = 'Server Fehler, bitte versuchen Sie es später erneut.';
-        this.cdr.detectChanges();
-      },
-    });
-  }
+  constructor(private userService: UserService, private adminService: AdminService, private cdr: ChangeDetectorRef, private router: Router) {}
 
   signup(): void {
     this.errMessage = null;
@@ -117,12 +62,9 @@ export class AdminSignUp {
 
     this.adminService.signUp(this.admin).subscribe({
       next: () => {
-        this.successMessage = 'Konto erfolgreich initalisiert. Sie können sich nun anmelden.';
-        this.email = this.admin.email;
-        this.password = '';
-        this.mode = 'login';
-        this.router.navigate(['/adminLogin']);
+        this.successMessage = 'Konto erfolgreich initialisiert.';
         this.cdr.detectChanges();
+        this.router.navigate(['/login']);
       },
       error: () => {
         this.errMessage = 'Registrierung fehlgeschlagen.';
@@ -131,3 +73,6 @@ export class AdminSignUp {
     });
   }
 }
+
+// TODO: Add verification of the forms in own service
+// TODO: Input in PostgreSQL not correct right now. Fix it.

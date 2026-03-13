@@ -1,11 +1,9 @@
-<div class="auth-page" [class.mode-signup]="mode === 'signup'" [class.mode-login]="mode === 'login'">
+<div class="auth-page mode-signup">
   <section class="brand-panel">
     <div class="brand-inner">
       <p class="eyebrow">Willkommen</p>
       <h1>{{ siteName }}</h1>
-      <p class="description">
-        Klarheit ist Design.
-      </p>
+      <p class="description">Klarheit ist Design.</p>
 
       <ul>
         <li *ngFor="let detail of details">{{ detail }}</li>
@@ -15,72 +13,19 @@
 
   <section class="form-panel">
     <div class="form-card">
-      <h2>{{ mode === 'login' ? 'Admin-Login' : 'Admin-Einrichtung' }}</h2>
-      <p class="subtitle">
-        {{
-          mode === 'login'
-            ? 'Melden Sie sich an um fortzufahren.'
-            : 'Füllen Sie die Felder aus um Ihren Account anzulegen.'
-        }}
-      </p>
+      <h2>Admin-Einrichtung</h2>
+      <p class="subtitle">Füllen Sie die Felder aus um Ihren Account anzulegen.</p>
 
-      <form *ngIf="mode === 'login'" (ngSubmit)="login()" #loginForm="ngForm">
-        <div class="form-group">
-          <label for="loginEmail">Email</label>
-          <input
-            id="loginEmail"
-            type="email"
-            name="loginEmail"
-            placeholder="max@example.com"
-            [(ngModel)]="email"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="loginPassword">Passwort</label>
-          <input
-            id="loginPassword"
-            type="password"
-            name="loginPassword"
-            placeholder="********"
-            [(ngModel)]="password"
-            required
-          />
-        </div>
-
-        <label class="check-row" for="stayLogged">
-          <input id="stayLogged" name="stayLogged" type="checkbox" [(ngModel)]="stayLogged" />
-          <span>Angemeldet bleiben</span>
-        </label>
-
-        <button type="submit" class="submit-button">Login</button>
-      </form>
-
-      <form *ngIf="mode === 'signup'" (ngSubmit)="signup()" #signupForm="ngForm">
+      <form (ngSubmit)="signup()" #signupForm="ngForm">
         <div class="form-grid">
           <div class="form-group">
             <label for="firstname">Vorname</label>
-            <input
-              id="firstname"
-              type="text"
-              name="firstname"
-              placeholder="Max"
-              [(ngModel)]="admin.firstname"
-              required
-            />
+            <input id="firstname" type="text" name="firstname" placeholder="Max" [(ngModel)]="admin.firstname" required />
           </div>
 
           <div class="form-group">
             <label for="lastname">Nachname</label>
-            <input
-              id="lastname"
-              type="text"
-              name="lastname"
-              placeholder="Mustermann"
-              [(ngModel)]="admin.lastname"
-              required
-            />
+            <input id="lastname" type="text" name="lastname" placeholder="Mustermann" [(ngModel)]="admin.lastname" required />
           </div>
         </div>
 
@@ -91,38 +36,17 @@
 
         <div class="form-group">
           <label for="signupEmail">Email</label>
-          <input
-            id="signupEmail"
-            type="email"
-            name="signupEmail"
-            placeholder="max@example.com"
-            [(ngModel)]="admin.email"
-            required
-          />
+          <input id="signupEmail" type="email" name="signupEmail" placeholder="max@example.com" [(ngModel)]="admin.email" required />
         </div>
 
         <div class="form-group">
           <label for="signupPassword">Passwort</label>
-          <input
-            id="signupPassword"
-            type="password"
-            name="signupPassword"
-            placeholder="********"
-            [(ngModel)]="admin.passwordhash"
-            required
-          />
+          <input id="signupPassword" type="password" name="signupPassword" placeholder="********" [(ngModel)]="admin.passwordhash" required />
         </div>
 
         <div class="form-group">
           <label for="passwordRepeat">Passwort bestätigen</label>
-          <input
-            id="passwordRepeat"
-            type="password"
-            name="passwordRepeat"
-            placeholder="********"
-            [(ngModel)]="passwordRepeat"
-            required
-          />
+          <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="********" [(ngModel)]="passwordRepeat" required />
         </div>
 
         <div class="form-group">
@@ -131,14 +55,14 @@
         </div>
 
         <div class="form-group">
-            <label for="streakLimit">Seriendauer</label>
-            <h2>{{ streakLimit }}</h2>
-            <input id="streakLimit" type="range" min="1" max="60" name="streakLimit" [(ngModel)]="streakLimit" required />
+          <label for="streakLimit">Seriendauer</label>
+          <h2>{{ streakLimit }}</h2>
+          <input id="streakLimit" type="range" min="1" max="60" name="streakLimit" [(ngModel)]="streakLimit" required />
         </div>
 
         <div class="form-group">
-            <label for="starterCode">Startercode</label>
-            <input id="starterCode" type="text" name="starterCode" [(ngModel)]="starterCode" required />
+          <label for="starterCode">Startercode</label>
+          <input id="starterCode" type="text" name="starterCode" [(ngModel)]="starterCode" required />
         </div>
 
         <button type="submit" class="submit-button">Konto erstellen</button>
@@ -146,13 +70,6 @@
 
       <p *ngIf="errMessage" class="feedback error">{{ errMessage }}</p>
       <p *ngIf="successMessage" class="feedback success">{{ successMessage }}</p>
-
-      <p class="switch-text">
-        {{ mode === 'login' ? "Noch nicht initialisiert?" : 'Bereits Registriert?' }}
-        <button type="button" class="switch-button" (click)="toggleMode()">
-          {{ mode === 'login' ? 'Initalisieren' : 'Anmelden' }}
-        </button>
-      </p>
     </div>
   </section>
 </div>

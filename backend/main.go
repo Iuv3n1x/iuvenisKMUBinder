@@ -182,6 +182,7 @@ func handleInitalization(w http.ResponseWriter, r *http.Request) {
 	a.Registrationdate = time.Now()
 
 	if err := addAdmin(a); err != nil {
+		log.Println("AddAdmin Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -196,16 +197,18 @@ func addAdmin(a Admin) error {
 		return err
 	}
 
+	log.Println("Admin data:", a)
+
 	var adminID int
-	query := `INSERT INTO users (firstname, lastname, email, passwordhash, registrationdate, birthdate)
-	          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+	query := `INSERT INTO users (firstname, lastname, email, passwordhash, registrationdate, birthdate, is_user)
+	          VALUES ($1, $2, $3, $4, $5, $6, false) RETURNING id`
 	err = db.QueryRow(query, a.Firstname, a.Lastname, a.Email, string(hashedPassword), a.Registrationdate, a.Birthdate).Scan(&adminID)
 	if err != nil {
 		return err
 	}
 
-	query = `INSERT INTO businesses (id, businessname, streaktimer) VALUES ($1, $2, $3)`
-	_, err = db.Exec(query, adminID, a.CompanyName, a.SeriesLimit)
+	query = `INSERT INTO businesses (id, businessname, qr, qrtokenexpiry, streaktimer) VALUES ($1, $2, $3, $4, $5)`
+	_, err = db.Exec(query, adminID, a.CompanyName, a.SeriesLimit, nil, 1)
 	return err
 }
 

@@ -13,7 +13,6 @@ export const routes: Routes = [
     { path: 'login', component: Login, canActivate: [guestGuard] },
     { path: 'signup', component: Login, canActivate: [guestGuard] },
 
-    { path: 'adminLogin', component: AdminSignUp, canActivate: [guestGuard] },
     { path: 'adminSetUp', component: AdminSignUp, canActivate: [guestGuard] },
 
     { path: 'settings', component: Settings, canActivate: [authGuard] },
