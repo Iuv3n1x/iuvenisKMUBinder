@@ -57,7 +57,7 @@ func getEnvInt(key string, fallback int) int {
 	return fallback
 }
 
-// ------------------- User Struct -------------------
+// ------------------- Struct's -------------------
 type User struct {
 	Firstname        string    `json:"firstname"`
 	Lastname         string    `json:"lastname"`
@@ -65,6 +65,17 @@ type User struct {
 	Passwordhash     string    `json:"passwordhash"`
 	Registrationdate time.Time `json:"registrationdate"`
 	Birthdate        time.Time `json:"birthdate"`
+}
+
+type Admin struct {
+	Firstname        string    `json:"firstname"`
+	Lastname         string    `json:"lastname"`
+	CompanyName      string    `json:"companyName"`
+	Email            string    `json:"email"`
+	Passwordhash     string    `json:"passwordhash"`
+	Registrationdate time.Time `json:"registrationdate"`
+	Birthdate        time.Time `json:"birthdate"`
+	SeriesLimit      int       `json:"seriesLimit"`
 }
 
 // ------------------- Main -------------------
@@ -89,6 +100,7 @@ func main() {
 	mux.HandleFunc("/login", handleLogin)
 	mux.HandleFunc("/auth/check", handleCheckAuth)
 	mux.HandleFunc("/logout", handleLogout)
+	mux.HandleFunc("/initAdmin", handleInitalization)
 
 	fmt.Println("Surver runs on :8080")
 	log.Fatal(http.ListenAndServe(":8080", cors(mux)))
@@ -151,6 +163,49 @@ func addUser(u User) error {
 
 	query = `INSERT INTO earnings (userid, streak, higheststreak) VALUES ($1, $2, $3)`
 	_, err = db.Exec(query, userID, 0, 0)
+	return err
+}
+
+// ------------------- Initialization -------------------
+func handleInitalization(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var a Admin
+	if err := json.NewDecoder(r.Body).Decode(&a); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	a.Registrationdate = time.Now()
+
+	if err := addAdmin(a); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Admin initialized!"})
+}
+
+func addAdmin(a Admin) error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(a.Passwordhash), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	var adminID int
+	query := `INSERT INTO users (firstname, lastname, email, passwordhash, registrationdate, birthdate)
+	          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+	err = db.QueryRow(query, a.Firstname, a.Lastname, a.Email, string(hashedPassword), a.Registrationdate, a.Birthdate).Scan(&adminID)
+	if err != nil {
+		return err
+	}
+
+	query = `INSERT INTO businesses (id, businessname, streaktimer) VALUES ($1, $2, $3)`
+	_, err = db.Exec(query, adminID, a.CompanyName, a.SeriesLimit)
 	return err
 }
 
