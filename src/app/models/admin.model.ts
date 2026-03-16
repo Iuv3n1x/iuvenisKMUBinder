@@ -1,7 +1,8 @@
 export interface Admin {
     firstname: string;
     lastname: string;
-    CompanyName: string;
+    companyName: string;
+    starterCode: string;
     email: string;
     passwordhash: string;
     registrationdate: Date;

@@ -56,7 +56,7 @@
 
         <div class="form-group">
           <label for="streakLimit">Seriendauer</label>
-          <h2>{{ streakLimit }}</h2>
+          <h2>{{ streakLimit ?? 1 }}</h2>
           <input id="streakLimit" type="range" min="1" max="60" name="streakLimit" [(ngModel)]="streakLimit" required />
         </div>
 

@@ -63,6 +63,7 @@ For more information on using the Angular CLI, including detailed command refere
 The backend lives in `backend/` and expects PostgreSQL plus a small `.env` file.
 
 1. Copy `backend/.env.example` to `backend/.env` and update values if needed.
+   `JWT_KEY` must be at least 32 characters.
 2. Create the database from your PostgreSQL shell:
 
 ```sql
@@ -83,3 +84,4 @@ go run .
 ```
 
 The backend serves on `http://localhost:8080` and is configured for frontend CORS from `http://localhost:4200`.
+To allow additional frontend origins, set `CORS_ALLOWED_ORIGINS` as a comma-separated list in `backend/.env`.

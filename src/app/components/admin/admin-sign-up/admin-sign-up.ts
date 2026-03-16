@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Admin, AdminLog } from '../../../models/admin.model';
+import { Admin } from '../../../models/admin.model';
 import { UserService } from '../../../services/user-service';
 import { AdminService } from '../../../services/admin-service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-sign-up',
@@ -23,12 +23,13 @@ export class AdminSignUp {
   admin: Admin = {
     firstname: '',
     lastname: '',
-    CompanyName: '',
+    companyName: '',
+    starterCode: '',
     email: '',
     passwordhash: '',
     registrationdate: new Date(),
     birthdate: undefined as unknown as Date,
-    seriesLimit: 0,
+    seriesLimit: 1,
   };
 
   starterCode = '';
@@ -53,6 +54,9 @@ export class AdminSignUp {
 
     this.admin.birthdate = new Date(this.formattedBirthdate);
     this.admin.registrationdate = new Date();
+    this.admin.companyName = this.companyName.trim();
+    this.admin.starterCode = this.starterCode.trim();
+    this.admin.seriesLimit = this.streakLimit ?? 1;
 
     const validationError = this.userService.validateSignUp(this.admin, this.passwordRepeat);
     if (validationError) {

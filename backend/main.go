@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -21,6 +22,7 @@ var (
 	host, user, password, dbname string
 	port                         int
 	jwtKey                       []byte
+	allowedOrigins               map[string]struct{}
 	db                           *sql.DB
 )
 
@@ -37,7 +39,13 @@ func init() {
 	user = getEnv("DB_USER", "postgres")
 	password = getEnv("DB_PASSWORD", "")
 	dbname = getEnv("DB_NAME", "postgres")
-	jwtKey = []byte(getEnv("JWT_KEY", "defaultsecret"))
+	jwtSecret := getEnv("JWT_KEY", "")
+	if len(jwtSecret) < 32 {
+		log.Fatal("JWT_KEY must be set and at least 32 characters long")
+	}
+	jwtKey = []byte(jwtSecret)
+
+	allowedOrigins = parseAllowedOrigins(getEnv("CORS_ALLOWED_ORIGINS", "http://localhost:4200,http://127.0.0.1:4200"))
 }
 
 // ------------------- Helper Functions -------------------
@@ -57,6 +65,17 @@ func getEnvInt(key string, fallback int) int {
 	return fallback
 }
 
+func parseAllowedOrigins(origins string) map[string]struct{} {
+	allowed := map[string]struct{}{}
+	for _, origin := range strings.Split(origins, ",") {
+		trimmed := strings.TrimSpace(origin)
+		if trimmed != "" {
+			allowed[trimmed] = struct{}{}
+		}
+	}
+	return allowed
+}
+
 // ------------------- Struct's -------------------
 type User struct {
 	Firstname        string    `json:"firstname"`
@@ -71,6 +90,7 @@ type Admin struct {
 	Firstname        string    `json:"firstname"`
 	Lastname         string    `json:"lastname"`
 	CompanyName      string    `json:"companyName"`
+	StarterCode      string    `json:"starterCode"`
 	Email            string    `json:"email"`
 	Passwordhash     string    `json:"passwordhash"`
 	Registrationdate time.Time `json:"registrationdate"`
@@ -109,9 +129,16 @@ func main() {
 // ------------------- CORS -------------------
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+		origin := r.Header.Get("Origin")
+		if origin != "" {
+			if _, ok := allowedOrigins[origin]; !ok {
+				http.Error(w, "Origin not allowed", http.StatusForbidden)
+				return
+			}
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+		}
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		if r.Method == http.MethodOptions {
@@ -207,8 +234,8 @@ func addAdmin(a Admin) error {
 		return err
 	}
 
-	query = `INSERT INTO businesses (id, businessname, qr, qrtokenexpiry, streaktimer) VALUES ($1, $2, $3, $4, $5)`
-	_, err = db.Exec(query, adminID, a.CompanyName, a.SeriesLimit, nil, 1)
+	query = `INSERT INTO businesses (id, businessname, startercode, qrtokenexpiry, streaktimer) VALUES ($1, $2, $3, $4, $5)`
+	_, err = db.Exec(query, adminID, a.CompanyName, a.StarterCode, nil, a.SeriesLimit)
 	return err
 }
 

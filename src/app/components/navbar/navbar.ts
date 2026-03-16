@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user-service';
 
 
 @Component({
@@ -16,19 +17,20 @@ export class Navbar {
 
   @ViewChild('menuContainer') menuContainer!: ElementRef;
 
+  constructor(
+    private router: Router,
+    private userService: UserService,
+  ) {}
+
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
   logout() {
-    console.log('Logout clicked');
-
-    fetch('http://localhost:8080/logout', {
-      method: 'POST',
-      credentials: 'include'
-    }).then(() => {
-      window.location.href = '/login';
-    })
+    this.userService.logout().subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login']),
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -39,6 +41,6 @@ export class Navbar {
     }
 
   navigateToDashboard() {
-    window.location.href = '/dashboard';
+    this.router.navigate(['/dashboard']);
   }
 }

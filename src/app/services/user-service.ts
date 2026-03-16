@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User, UserLog } from '../models/user.model';
-import { EmptyError, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrlSign = 'http://localhost:8080/users';
+  private apiUrlSign = `${environment.apiBaseUrl}/users`;
+  private apiUrlLog = `${environment.apiBaseUrl}/login`;
+  private apiUrlLogout = `${environment.apiBaseUrl}/logout`;
 
   constructor(private http: HttpClient) {}
 
@@ -53,9 +56,11 @@ export class UserService {
   }
 
   // Login
-  private apiUrlLog = 'http://localhost:8080/login'
-
   login(userLog: UserLog, stayLogged: boolean): Observable<any> {
     return this.http.post(this.apiUrlLog, { ...userLog, stayLogged }, { withCredentials: true });
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(this.apiUrlLogout, {}, { withCredentials: true });
   }
 }
