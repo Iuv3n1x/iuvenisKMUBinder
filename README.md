@@ -58,6 +58,13 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
+## Implementation Notes
+
+- Full audit and fix report: `docs/2026-03-16-audit-fixes.md`
+- Backend behavior/config: `docs/backend.md`
+- DB schema details: `docs/database.md`
+- Env/config details: `docs/configuration.md`
+
 ## Backend Quick Start (Go + PostgreSQL)
 
 The backend lives in `backend/` and expects PostgreSQL plus a small `.env` file.
